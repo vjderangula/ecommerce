@@ -3,7 +3,7 @@ spring:
     driverClassName: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/ecommerce
     username: root
-    password: root
+    password: ecommerce123@D
   jpa:
     hibernate.ddl-auto: update
     generate-ddl: true
