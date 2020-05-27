@@ -1,10 +1,11 @@
 spring:
   datasource:
-    driverClassName: com.mysql.jdbc.Driver
+    driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/ecommerce
     username: root
     password: ecommerce123@D
   jpa:
-    hibernate.ddl-auto: update
     generate-ddl: true
     show-sql: true
+server:
+  port: 9898
