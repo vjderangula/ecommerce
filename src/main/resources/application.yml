@@ -1,11 +1,25 @@
 spring:
-  datasource:
+ output:
+    ansi:
+      enabled: always
+ datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/ecommerce
     username: root
     password: ecommerce123@D
-  jpa:
+ jpa:
     generate-ddl: true
     show-sql: true
+ profiles:
+    active: "dev"
+ application:
+    name: Ecommerce Application
+   # message: "application running in Dev"
 server:
   port: 9898
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        

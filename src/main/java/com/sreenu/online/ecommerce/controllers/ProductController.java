@@ -3,6 +3,8 @@ package com.sreenu.online.ecommerce.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +19,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping("/product")
@@ -34,19 +37,20 @@ public class ProductController {
 	        @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
 	}
 	)
-	@RequestMapping(value = "/list", method= RequestMethod.GET, produces = "application/json")
+	@GetMapping(value = "/list", produces = "application/json")
 	public Iterable list( ){
 	 //   Iterable productList = productService.listAllProducts();
 	    //return productList;
 	    return null;
 	}
 	
-	    @RequestMapping(value = "/list", method= RequestMethod.GET)
+	@Operation(summary =" find the list of products")
+	@GetMapping(value = "/list")
 	    public Iterable list(ProductModel model){
 	        Iterable productList = productService.listAllProducts();
 	        return productList;
 	    }
-	    @RequestMapping(value = "/show/{id}", method= RequestMethod.GET)
+	@GetMapping(value = "/show/{id}")
 	    public Product showProduct(@PathVariable Integer id, ProductModel model){
 	       Product product = productService.getProductById(id);
 	        return product;
@@ -58,14 +62,21 @@ public class ProductController {
 	    }
 	    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
 	    public ResponseEntity updateProduct(@PathVariable Integer id, @RequestBody Product product){
+	    	
+	    	try {
+	    		
 	        Product storedProduct = productService.getProductById(id);
 	        storedProduct.setDescription(product.getDescription());
 	        storedProduct.setImageUrl(product.getImageUrl());
 	        storedProduct.setPrice(product.getPrice());
-	        productService.saveProduct(storedProduct);
+	        productService.saveProduct(storedProduct);}
+	    	catch(Exception e) {
+	    		e.printStackTrace();
+	    		e.getMessage();
+	    	}
 	        return new ResponseEntity("Product updated successfully", HttpStatus.OK);
 	    }
-	    @RequestMapping(value="/delete/{id}", method = RequestMethod.DELETE)
+	    @DeleteMapping(value="/delete/{id}")
 	    public ResponseEntity delete(@PathVariable Integer id){
 	        productService.deleteProduct(id);
 	        return new ResponseEntity("Product deleted successfully", HttpStatus.OK);
